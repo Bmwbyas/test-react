@@ -31,7 +31,7 @@ const Search = styled(TextField)({
 const Header = () => {
     return (
         <Grid container>
-            <Grid xs={3} bgcolor={variables.secondBgColor}>
+            <Grid item xs={3} bgcolor={variables.secondBgColor}>
                 <Stack sx={{height: '100%'}} direction="row"
                        justifyContent="space-between" alignItems="center">
                     <Box>
@@ -47,7 +47,7 @@ const Header = () => {
                     </IconButton>
                 </Stack>
             </Grid>
-            <Grid container bgcolor={variables.bgcolor} xs={9}>
+            <Grid item container bgcolor={variables.bgcolor} xs={9}>
                 <Grid item xs={2}>
 
                     <IconButton sx={{height: '100%'}}>

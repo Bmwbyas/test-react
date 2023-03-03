@@ -1,31 +1,14 @@
 import React, {useState} from 'react';
 import {Divider, Grid, Link, Stack, Typography} from "@mui/material";
-import {variables} from "../../assets/styled/variables";
-import {v1} from "uuid";
+import {variables} from "../../../assets/styled/variables";
+import {MenuItemType} from "../Notes";
 
-const menuItems = [{
-    id: v1(),
-    name: "blabla",
-    createDate: '30.01.202020',
-    text: 'tilitili tralbasdff'
 
-},
-    {
-        id: v1(),
-        name: "bbbb",
-        createDate: '30.01.202022220',
-        text: 'fdsffdssf trafdsfds lbasdff'
 
-    },
-    {
-        id: v1(),
-        name: "aaaa",
-        createDate: '30.03.202020',
-        text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
-
-    }]
-
-export const Sidebar = () => {
+type SidebarType={
+    menuItems:MenuItemType[]
+}
+export const Sidebar:React.FC<SidebarType> = ({menuItems}) => {
     const [activeNote, setActiveNote] = useState<null | string>(null)
 
     return (
@@ -37,16 +20,17 @@ export const Sidebar = () => {
                   py: 2
               }}
         >
+
             <Typography variant="h6" sx={{pl: 4}}> Сегодня </Typography>
             <Divider sx={{bgcolor: variables.activeColor, mt: 1, mb: 2}}/>
             <Stack spacing={2} width={'90%'} mx={"auto"}>
-                {menuItems.map((el, index) => {
+                {menuItems.map((el:any) => {
                     const activeColor = activeNote === el.id ? variables.selectColor : ''
                     const activeNoteHandler=()=>{
                         setActiveNote(el.id)
                     }
 
-                    return <Link href="#" onClick={activeNoteHandler} color="inherit" underline="none"  >
+                    return <Link key={el.id} href="#" onClick={activeNoteHandler} color="inherit" underline="none"  >
                         <Stack
                             direction={"column"}
                             sx={{
@@ -55,7 +39,7 @@ export const Sidebar = () => {
                                 p: 1,
                                 borderBottom: `1px solid ${variables.selectColor}`
                             }}
-                            key={index}
+
                         >
                             <Typography sx={{
 

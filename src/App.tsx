@@ -1,20 +1,13 @@
-import {useState} from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
-import {Sidebar} from "./features/sideabar/Sidebar";
-import {Main} from "./features/main/Main";
-import {Grid} from "@mui/material";
 import Header from "./components/header/Header";
+import Notes from "./features/notes/Notes";
 
 function App() {
 
     return (
         <>
             <Header/>
-            <Grid container>
-                <Sidebar/>
-                <Main/>
-            </Grid>
+            <Notes/>
         </>
     )
 }
