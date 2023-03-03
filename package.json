@@ -15,10 +15,12 @@
     "@mui/material": "^5.11.11",
     "@mui/styled-engine-sc": "^5.11.11",
     "@types/react-router-dom": "^5.3.3",
+    "@types/uuid": "^9.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.2",
-    "styled-components": "^5.3.8"
+    "styled-components": "^5.3.8",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
