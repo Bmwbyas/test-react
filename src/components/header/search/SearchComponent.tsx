@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useContext, useState} from 'react';
 import {Box, FormControl, IconButton, styled, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import {variables} from "../../../assets/styled/variables";
+import DataContext, {DataContextType} from "../../../store/store";
 
 const Search = styled(TextField)({
     '& input': {
@@ -23,26 +24,32 @@ const Search = styled(TextField)({
 });
 type SearchPropsType = {}
 export const SearchComponent: React.FC<SearchPropsType> = ({}) => {
+    const {editMode, filter, searchNotes} = useContext(DataContext) as DataContextType
     const [viewSearch, setViewSearch] = useState(false)
-    const viewMain = true
+
+    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        searchNotes(event.currentTarget.value)
+    }
 
     return (
-        <Box >
-            {viewMain ?
+        <Box>
+            {editMode ?
                 <>                    {viewSearch ?
-                        <FormControl >
-                            <Search
-                                sx={{my: 2, mr: 2}}
-                                size="small"
-                                placeholder='Поиск'
-                                onBlur={()=>setViewSearch(false)}
-                                autoFocus
-                                InputProps={{
-                                    startAdornment: <SearchIcon color={"inherit"} sx={{color: variables.activeColor}}/>,
-                                }}/>
-                        </FormControl> :<IconButton onClick={() => setViewSearch(true)}>
-                            <SearchIcon color={"inherit"} sx={{color: variables.activeColor}}/>
-                        </IconButton>}
+
+                    <Search
+                        sx={{my: 2, mr: 2}}
+                        value={filter}
+                        size="small"
+                        placeholder='Поиск'
+                        onChange={onChangeHandler}
+                        onBlur={() => setViewSearch(false)}
+                        autoFocus
+                        InputProps={{
+                            startAdornment: <SearchIcon color={"inherit"} sx={{color: variables.activeColor}}/>,
+                        }}/>
+                    : <IconButton onClick={() => setViewSearch(true)}>
+                        <SearchIcon color={"inherit"} sx={{color: variables.activeColor}}/>
+                    </IconButton>}
                 </>
                 :
                 <FormControl>
@@ -50,6 +57,8 @@ export const SearchComponent: React.FC<SearchPropsType> = ({}) => {
                         sx={{my: 2, mr: 2}}
                         size="small"
                         placeholder='Поиск'
+                        value={filter}
+                        onChange={onChangeHandler}
                         InputProps={{
                             startAdornment: <SearchIcon color={"inherit"} sx={{color: variables.activeColor}}/>,
                         }}/>

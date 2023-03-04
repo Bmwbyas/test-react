@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Box, Grid, IconButton, Stack} from "@mui/material";
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
@@ -7,23 +7,15 @@ import TextFieldsIcon from '@mui/icons-material/TextFields';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import {variables} from "../../assets/styled/variables";
-import {ThemeType} from "../../App";
 import {SearchComponent} from "./search/SearchComponent";
+import DataContext, {DataContextType} from "../../store/store";
 
-
-type HeaderTypes = {
-    theme: ThemeType
-    setListTheme: () => void
-    setTableTheme: () => void
-
-}
-
-const Header: React.FC<HeaderTypes> = ({theme, setListTheme, setTableTheme}) => {
+const Header: React.FC = () => {
+    const {theme,setThemeList,setThemeTable,editMode,disableEditMode,deleteNote,activeNoteId}=useContext(DataContext) as DataContextType
+    console.log(theme)
     const tableTheme = theme === "table" ? {borderRight: `1px solid ${variables.activeColor}`} : ""
-    const viewMain = false
-    const backtoMenu=()=>{
+    const viewMain = editMode
 
-    }
     return (<>
             {
                 <Grid container sx={{minHeight: 72}}>
@@ -31,20 +23,20 @@ const Header: React.FC<HeaderTypes> = ({theme, setListTheme, setTableTheme}) => 
                         <Stack sx={{height: '100%', ...tableTheme}} direction="row"
                                justifyContent="space-between" alignItems="center">
                             <Box>
-                                <IconButton onClick={setListTheme} disabled={theme === 'list' || viewMain}>
+                                <IconButton onClick={setThemeList} disabled={theme === 'list' || viewMain}>
                                     <FormatListBulletedOutlinedIcon
                                         sx={{fontSize: '30px', color: variables.activeColor}}/>
                                 </IconButton>
-                                <IconButton onClick={setTableTheme} disabled={theme === 'table' || viewMain}>
+                                <IconButton onClick={setThemeTable} disabled={theme === 'table' || viewMain}>
                                     <GridViewOutlinedIcon sx={{fontSize: '30px', color: variables.activeColor}}/>
                                 </IconButton>
                                 {theme === "table" ?
-                                    <IconButton onClick={backtoMenu} disabled={theme === 'table' || !viewMain}>
+                                    <IconButton onClick={disableEditMode} disabled={ !viewMain}>
                                         <ArrowBackIosNewIcon sx={{fontSize: '30px', color: variables.activeColor}}/>
                                     </IconButton>
                                     : ""}
                             </Box>
-                            <IconButton>
+                            <IconButton onClick={deleteNote} disabled={activeNoteId===null}>
                                 <DeleteForeverOutlinedIcon sx={{fontSize: '30px', color: variables.activeColor}}/>
                             </IconButton>
                         </Stack>

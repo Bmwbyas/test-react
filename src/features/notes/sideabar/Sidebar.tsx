@@ -1,17 +1,24 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import {Box, Divider, Grid, Link, Stack, Typography} from "@mui/material";
 import {variables} from "../../../assets/styled/variables";
-import {MenuItemType} from "../Notes";
-import {ThemeType} from "../../../App";
+import DataContext, {DataContextType, INote} from "../../../store/store";
 
 
-type SidebarType = {
-    menuItems: MenuItemType[]
-    theme: ThemeType
-}
-export const Sidebar: React.FC<SidebarType> = ({menuItems, theme}) => {
-    const [activeNote, setActiveNote] = useState<null | string>(null)
-    const viewTableMenu=false
+export const Sidebar: React.FC = () => {
+    const {
+        notes,
+        theme,
+        editMode,
+        enableEditMode,
+        filter: f,
+        activeNoteId,
+        changeActiveNote,
+        setCurrentNote
+    } = useContext(DataContext) as DataContextType
+
+    const filtredNotes = notes.filter(p => p.name.indexOf(f) > -1)
+
+
     return (
         theme === "list" ?
             <Grid item xs={3}
@@ -26,10 +33,11 @@ export const Sidebar: React.FC<SidebarType> = ({menuItems, theme}) => {
                 <Typography variant="h6" sx={{pl: 4}}> Сегодня </Typography>
                 <Divider sx={{bgcolor: variables.activeColor, mt: 1, mb: 2}}/>
                 <Stack spacing={2} width={'90%'} mx={"auto"}>
-                    {menuItems.map((el: any) => {
-                        const activeColor = activeNote === el.id ? variables.selectColor : ''
+                    {filtredNotes.map((el: INote) => {
+                        const activeColor = activeNoteId === el.id ? variables.selectColor : ''
                         const activeNoteHandler = () => {
-                            setActiveNote(el.id)
+                            changeActiveNote(el.id)
+                            setCurrentNote(el.id)
                         }
                         return <Link key={el.id} href="#" onClick={activeNoteHandler} color="inherit" underline="none">
                             <Stack
@@ -64,18 +72,20 @@ export const Sidebar: React.FC<SidebarType> = ({menuItems, theme}) => {
                         color: variables.activeColor,
                         height: '92vh',
                         py: 2,
-                        display:viewTableMenu?'':'none'
+                        display: editMode ? 'none' : ''
                     }}
             >
 
                 <Typography variant="h6" sx={{pl: 4, mb: 4}}> Сегодня </Typography>
                 <Stack direction={"row"} flexWrap={"wrap"} justifyContent={"space-between"} alignItems={"center"}
                        width={'90%'} mx={"auto"}>
-                    {menuItems.map((el: any) => {
+                    {filtredNotes.map((el: INote) => {
                         const activeNoteHandler = () => {
-                            setActiveNote(el.id)
+                            changeActiveNote(el.id)
+                            setCurrentNote(el.id)
+                            enableEditMode()
                         }
-                        const borderItem = activeNote === el.id ? `3px solid yellow` : `3px solid ${variables.activeColor}`
+                        const borderItem = activeNoteId === el.id ? `3px solid yellow` : `3px solid ${variables.activeColor}`
                         return <Link key={el.id} href="#" onClick={activeNoteHandler} color="inherit" underline="none">
                             <Stack
                                 direction={"column"}
