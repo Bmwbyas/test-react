@@ -3,6 +3,7 @@ import {Grid} from "@mui/material";
 import {Sidebar} from "./sideabar/Sidebar";
 import {Main} from "./main/Main";
 import {v1} from "uuid";
+import {ThemeType} from "../../App";
 
 export type MenuItemType={
     id: string
@@ -30,14 +31,49 @@ const menuItems:MenuItemType[] = [{
         createDate: '30.03.202020',
         text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
 
-    }]
+    }, {
+        id: v1(),
+        name: "aaaa",
+        createDate: '30.03.202020',
+        text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
 
-const Notes = () => {
+    },
+    {
+        id: v1(),
+        name: "aaaa",
+        createDate: '30.03.202020',
+        text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
+
+    }, {
+        id: v1(),
+        name: "aaaa",
+        createDate: '30.03.202020',
+        text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
+
+    },
+    {
+        id: v1(),
+        name: "aaaa",
+        createDate: '30.03.202020',
+        text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
+
+    }, {
+        id: v1(),
+        name: "aaaa",
+        createDate: '30.03.202020',
+        text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
+
+    }]
+type NotesType = {
+    theme:ThemeType
+
+}
+const Notes:React.FC<NotesType> = ({theme}) => {
 
     return (
         <Grid container>
-            <Sidebar menuItems={menuItems} />
-            <Main menuItem={menuItems[0]}/>
+            <Sidebar theme={theme}  menuItems={menuItems} />
+            <Main theme={theme} menuItem={menuItems[0]}/>
         </Grid>
     );
 };
