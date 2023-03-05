@@ -3,18 +3,27 @@ import {Box, Grid, IconButton, Stack} from "@mui/material";
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 import TextFieldsIcon from '@mui/icons-material/TextFields';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import {variables} from "../../assets/styled/variables";
 import {SearchComponent} from "./search/SearchComponent";
 import DataContext, {DataContextType} from "../../store/store";
+import {BasicModal} from "../../common/components/modal/Modal";
 
 const Header: React.FC = () => {
-    const {theme,setThemeList,setThemeTable,editMode,disableEditMode,deleteNote,activeNoteId}=useContext(DataContext) as DataContextType
+    const {
+        theme,
+        setThemeList,
+        setThemeTable,
+        viewMain,
+        disableViewMain,
+        deleteNote,
+        activeNoteId
+    } = useContext(DataContext) as DataContextType
     console.log(theme)
     const tableTheme = theme === "table" ? {borderRight: `1px solid ${variables.activeColor}`} : ""
-    const viewMain = editMode
+
 
     return (<>
             {
@@ -31,14 +40,14 @@ const Header: React.FC = () => {
                                     <GridViewOutlinedIcon sx={{fontSize: '30px', color: variables.activeColor}}/>
                                 </IconButton>
                                 {theme === "table" ?
-                                    <IconButton onClick={disableEditMode} disabled={ !viewMain}>
+                                    <IconButton onClick={disableViewMain} disabled={!viewMain}>
                                         <ArrowBackIosNewIcon sx={{fontSize: '30px', color: variables.activeColor}}/>
                                     </IconButton>
                                     : ""}
                             </Box>
-                            <IconButton onClick={deleteNote} disabled={activeNoteId===null}>
+                            <BasicModal text={'Do you really want to delete this post?'} action={deleteNote} disabledButton={activeNoteId===null}>
                                 <DeleteForeverOutlinedIcon sx={{fontSize: '30px', color: variables.activeColor}}/>
-                            </IconButton>
+                            </BasicModal>
                         </Stack>
 
                     </Grid>
@@ -49,7 +58,8 @@ const Header: React.FC = () => {
                         <Grid item xs={2}>
 
                             <IconButton sx={{height: '100%'}}>
-                                <AddBoxIcon sx={{color: variables.activeColor}}/>
+                                <DriveFileRenameOutlineOutlinedIcon
+                                    sx={{fontSize: '30px', color: variables.activeColor}}/>
                             </IconButton>
 
                         </Grid>
@@ -57,7 +67,7 @@ const Header: React.FC = () => {
                             <Stack direction="row" justifyContent="space-between"
                                    alignItems="center" sx={{height: '100%'}}>
                                 <IconButton>
-                                    <TextFieldsIcon sx={{color: variables.activeColor}}/>
+                                    <TextFieldsIcon sx={{fontSize: '30px', color: variables.activeColor}}/>
                                 </IconButton>
                                 <SearchComponent/>
                             </Stack>

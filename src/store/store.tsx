@@ -64,17 +64,20 @@ export type ContextType = {
     notes: INote[]
     note:INote
     theme:string
-    editMode:boolean
+    viewMain:boolean
     activeNoteId:string|null
     filter:string
+    editMode:boolean
 };
 
 
 type ActionsType= {
     setThemeList:()=>void
     setThemeTable:()=>void
-    enableEditMode:()=>void
-    disableEditMode:()=>void
+    enableViewMain:()=>void
+    disableViewMain:()=>void
+    activeEditMode:()=>void
+    disableEditMode:(text:string)=>void
     changeActiveNote:(id:string)=>void
     setCurrentNote:(id:string)=>void
     deleteNote:()=>void
@@ -102,11 +105,16 @@ export const DataProvider:React.FC<DataProviderType> = ({children}) => {
    //theme variant note
     const [theme,setTheme]=useState<string>("list")
 
-    // assets view header
-    const [editMode,setEditMode]=useState<boolean>(false)
+    // view table main component
+    const [viewMain,setViewMain]=useState<boolean>(false)
 
+    // active node id
     const [activeNoteId, setActiveNoteId] = useState<null | string>(null)
 
+    //edit mode note
+    const [editMode,setEditMode]=useState(false)
+
+    console.log(editMode)
     const setThemeTable=()=>{
         setTheme("table")
     }
@@ -114,11 +122,11 @@ export const DataProvider:React.FC<DataProviderType> = ({children}) => {
         setTheme("list")
     }
 
-    const enableEditMode=()=>{
-        setEditMode(true)
+    const enableViewMain=()=>{
+        setViewMain(true)
     }
-    const disableEditMode=()=>{
-        setEditMode(false)
+    const disableViewMain=()=>{
+        setViewMain(false)
     }
 
     const changeActiveNote=(id:string)=>{
@@ -139,15 +147,30 @@ export const DataProvider:React.FC<DataProviderType> = ({children}) => {
     const searchNotes=(value:string)=>{
         setNote({id:'',createDate:'',text:'',name:''})
        setFilter(value)
-
     }
-
+    const activeEditMode=()=>{
+        setEditMode(true)
+    }
+    const disableEditMode=(text:string)=>{
+        const options:any = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour:'numeric',
+            minute:'numeric',
+            second:'numeric',
+            timezone: 'UTC'
+        };
+        const date=new Date().toLocaleString("ru", options);
+        setEditMode(false)
+        setNote({...note,text, createDate:date})
+    }
 
     return (
         <DataContext.Provider value={{
-            theme,setThemeTable,setThemeList,editMode,enableEditMode,
-            disableEditMode, activeNoteId,changeActiveNote,setCurrentNote,note,
-            deleteNote,searchNotes,notes,filter
+            theme,setThemeTable,setThemeList, viewMain,enableViewMain,
+            disableViewMain, activeNoteId,changeActiveNote,setCurrentNote,note,
+            deleteNote,searchNotes,notes,filter,activeEditMode,disableEditMode,editMode
         }}>
             {children}
         </DataContext.Provider>

@@ -8,8 +8,8 @@ export const Sidebar: React.FC = () => {
     const {
         notes,
         theme,
-        editMode,
-        enableEditMode,
+        viewMain,
+        enableViewMain,
         filter: f,
         activeNoteId,
         changeActiveNote,
@@ -72,7 +72,7 @@ export const Sidebar: React.FC = () => {
                         color: variables.activeColor,
                         height: '92vh',
                         py: 2,
-                        display: editMode ? 'none' : ''
+                        display: viewMain ? 'none' : ''
                     }}
             >
 
@@ -83,7 +83,7 @@ export const Sidebar: React.FC = () => {
                         const activeNoteHandler = () => {
                             changeActiveNote(el.id)
                             setCurrentNote(el.id)
-                            enableEditMode()
+                            enableViewMain()
                         }
                         const borderItem = activeNoteId === el.id ? `3px solid yellow` : `3px solid ${variables.activeColor}`
                         return <Link key={el.id} href="#" onClick={activeNoteHandler} color="inherit" underline="none">
