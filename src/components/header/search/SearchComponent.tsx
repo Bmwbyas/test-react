@@ -2,7 +2,8 @@ import React, {ChangeEvent, useContext, useState} from 'react';
 import {Box, FormControl, IconButton, styled, TextField} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import {variables} from "../../../assets/styled/variables";
-import DataContext, {DataContextType} from "../../../store/store";
+import DataContext from "../../../store/store";
+import {DataContextType} from "../../../store/types";
 
 const Search = styled(TextField)({
     '& input': {
@@ -22,8 +23,8 @@ const Search = styled(TextField)({
         },
     },
 });
-type SearchPropsType = {}
-export const SearchComponent: React.FC<SearchPropsType> = ({}) => {
+
+export const SearchComponent: React.FC = () => {
     const {viewMain, filter, searchNotes} = useContext(DataContext) as DataContextType
     const [viewSearch, setViewSearch] = useState(false)
 
@@ -34,22 +35,23 @@ export const SearchComponent: React.FC<SearchPropsType> = ({}) => {
     return (
         <Box>
             {viewMain ?
-                <>                    {viewSearch ?
+                <>
+                    {viewSearch ?
 
-                    <Search
-                        sx={{my: 2, mr: 2}}
-                        value={filter}
-                        size="small"
-                        placeholder='Поиск'
-                        onChange={onChangeHandler}
-                        onBlur={() => setViewSearch(false)}
-                        autoFocus
-                        InputProps={{
-                            startAdornment: <SearchIcon color={"inherit"} sx={{color: variables.activeColor}}/>,
-                        }}/>
-                    : <IconButton onClick={() => setViewSearch(true)}>
-                        <SearchIcon color={"inherit"} sx={{color: variables.activeColor}}/>
-                    </IconButton>}
+                        <Search
+                            sx={{my: 2, mr: 2}}
+                            value={filter}
+                            size="small"
+                            placeholder='Поиск'
+                            onChange={onChangeHandler}
+                            onBlur={() => setViewSearch(false)}
+                            autoFocus
+                            InputProps={{
+                                startAdornment: <SearchIcon color={"inherit"} sx={{color: variables.activeColor}}/>,
+                            }}/>
+                        : <IconButton onClick={() => setViewSearch(true)}>
+                            <SearchIcon color={"inherit"} sx={{color: variables.activeColor}}/>
+                        </IconButton>}
                 </>
                 :
                 <FormControl>

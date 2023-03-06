@@ -1,7 +1,8 @@
 import React, {useContext} from 'react';
 import {Box, Divider, Grid, Link, Stack, Typography} from "@mui/material";
 import {variables} from "../../../assets/styled/variables";
-import DataContext, {DataContextType, INote} from "../../../store/store";
+import DataContext  from "../../../store/store";
+import {DataContextType, INote} from "../../../store/types";
 
 
 export const Sidebar: React.FC = () => {

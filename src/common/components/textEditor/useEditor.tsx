@@ -2,7 +2,8 @@ import {ContentState, convertFromHTML, EditorState, RichUtils} from 'draft-js';
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
 import {BlockType, InlineStyle} from "./config";
-import DataContext, {DataContextType} from "../../../store/store";
+import DataContext from "../../../store/store";
+import {DataContextType} from "../../../store/types";
 
 
 export type EditorApi = {
@@ -14,13 +15,13 @@ export type EditorApi = {
 }
 
 export const useEditor = (): EditorApi => {
-    const{setValueInnerHtml,activeNoteId}=useContext(DataContext) as DataContextType
+    const {setValueInnerHtml, activeNoteId} = useContext(DataContext) as DataContextType
 
 
     const [state, setState] = React.useState(() => EditorState.createEmpty());
 
-    useEffect(()=>{
-        const sampleMarkup =setValueInnerHtml();
+    useEffect(() => {
+        const sampleMarkup = setValueInnerHtml();
         const blocksFromHTML = convertFromHTML(sampleMarkup);
         const defaultState = ContentState.createFromBlockArray(
             blocksFromHTML.contentBlocks,
@@ -28,7 +29,7 @@ export const useEditor = (): EditorApi => {
         );
         setState(EditorState.createWithContent(defaultState))
 
-    },[activeNoteId])
+    }, [activeNoteId])
 
     const toggleBlockType = React.useCallback((blockType: BlockType) => {
         setState((currentState) =>

@@ -22,6 +22,7 @@ export enum BlockType {
     /* Простой текст */
     default = 'unstyled',
 }
+
 export enum InlineStyle {
     BOLD = 'BOLD',
     ITALIC = 'ITALIC',

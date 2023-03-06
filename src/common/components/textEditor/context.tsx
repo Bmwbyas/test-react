@@ -13,10 +13,10 @@ export const useEditorApi = () => {
 
     return context;
 }
-type TextEditorProviderType={
-    children:ReactNode
+type TextEditorProviderType = {
+    children: ReactNode
 }
-export const TextEditorProvider: React.FC<TextEditorProviderType> = ({ children }) => {
+export const TextEditorProvider: React.FC<TextEditorProviderType> = ({children}) => {
     const editorApi = useEditor();
 
 

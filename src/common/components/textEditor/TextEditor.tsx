@@ -5,8 +5,9 @@ import {useEditorApi} from './context';
 import cn from 'classnames';
 import './TextEditor.scss';
 import {BLOCK_RENDER_MAP, CUSTOM_STYLE_MAP} from './config';
-import DataContext, {DataContextType} from "../../../store/store";
+import DataContext from "../../../store/store";
 import {saveInLocalStorage} from "../../../localstorage/localStorage";
+import {DataContextType} from "../../../store/types";
 
 export type TextEditorProps = {
     className?: string;
@@ -17,10 +18,10 @@ const TextEditor: React.FC<TextEditorProps> = ({className}) => {
     const {setNoteHandler, notes} = useContext(DataContext) as DataContextType
     const ref = useRef<HTMLDivElement | null>(null)
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log('sdasasdas')
         saveInLocalStorage(notes)
-    },[state])
+    }, [state])
 
     const getDataEditor = () => {
         let text = ref.current?.innerText

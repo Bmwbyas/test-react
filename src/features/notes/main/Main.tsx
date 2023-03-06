@@ -1,10 +1,11 @@
 import React, {useContext} from 'react';
 import {Grid, Typography} from "@mui/material";
 import {variables} from "../../../assets/styled/variables";
-import DataContext, {DataContextType} from "../../../store/store";
+import DataContext from "../../../store/store";
 import TextEditor from "../../../common/components/textEditor/TextEditor";
 import ToolPanel from "../../../common/components/toolPanel/ToolPanel";
 import {TextEditorProvider} from "../../../common/components/textEditor/context";
+import {DataContextType} from "../../../store/types";
 
 export const Main: React.FC = () => {
     const {

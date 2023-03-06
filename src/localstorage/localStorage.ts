@@ -1,4 +1,5 @@
-import {INote, notesData} from "../store/store";
+import { notesData} from "../store/store";
+import {INote} from "../store/types";
 
 export const saveInLocalStorage=(notes:INote[])=>{
 

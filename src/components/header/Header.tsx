@@ -8,8 +8,9 @@ import TextFieldsIcon from '@mui/icons-material/TextFields';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {variables} from "../../assets/styled/variables";
 import {SearchComponent} from "./search/SearchComponent";
-import DataContext, {DataContextType} from "../../store/store";
+import DataContext from "../../store/store";
 import {BasicModal} from "../../common/components/modal/Modal";
+import {DataContextType} from "../../store/types";
 
 const Header: React.FC = () => {
     const {
@@ -20,7 +21,6 @@ const Header: React.FC = () => {
         disableViewMain,
         deleteNote,
         activeNoteId,
-        formatText,
     } = useContext(DataContext) as DataContextType
     const tableTheme = theme === "table" ? {borderRight: `1px solid ${variables.activeColor}`} : ""
 
@@ -65,7 +65,7 @@ const Header: React.FC = () => {
                         <Grid item xs={10}>
                             <Stack direction="row" justifyContent="space-between"
                                    alignItems="center" sx={{height: '100%'}}>
-                                <IconButton onClick={formatText}>
+                                <IconButton>
                                     <TextFieldsIcon sx={{fontSize: '30px', color: variables.activeColor}}/>
                                 </IconButton>
                                 <SearchComponent/>
