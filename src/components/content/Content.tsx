@@ -1,0 +1,24 @@
+import React, {useContext, useEffect} from 'react';
+import Header from "../header/Header";
+import Notes from "../../features/notes/Notes";
+import {getLocalStorage} from "../../localstorage/localStorage";
+import DataContext, {DataContextType} from "../../store/store";
+
+export const Content = () => {
+    const {setlocalStorageData}=useContext(DataContext) as DataContextType
+
+    useEffect(()=>{
+        const localData=getLocalStorage()
+        setlocalStorageData(localData)
+    },[])
+
+
+
+    return (
+        <>
+            <Header/>
+            <Notes/>
+        </>
+    );
+};
+

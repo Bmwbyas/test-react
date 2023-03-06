@@ -1,179 +1,176 @@
 import React, {useState} from "react";
 import {v1} from "uuid";
+import {saveInLocalStorage} from "../localstorage/localStorage";
 
-const  notesData=[{
-        id: v1(),
-        name: "blabla",
-        createDate: '30.01.202020',
-        text: 'tilitili tralbasdff'
 
-    },
-        {
-            id: v1(),
-            name: "bbbb",
-            createDate: '30.01.202022220',
-            text: 'fdsffdssf trafdsfds lbasdff'
 
-        },
-        {
-            id: v1(),
-            name: "aaaa",
-            createDate: '30.03.202020',
-            text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
-
-        }, {
-            id: v1(),
-            name: "aaaa",
-            createDate: '30.03.202020',
-            text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
-
-        },
-        {
-            id: v1(),
-            name: "aaaa",
-            createDate: '30.03.202020',
-            text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
-
-        }, {
-            id: v1(),
-            name: "aaaa",
-            createDate: '30.03.202020',
-            text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
-
-        },
-        {
-            id: v1(),
-            name: "aaaa",
-            createDate: '30.03.202020',
-            text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
-
-        }, {
-            id: v1(),
-            name: "aaaa",
-            createDate: '30.03.202020',
-            text: 'Lorem  vfdvjsorkl; vlsdfv;lkfv '
-
-        }]
 export interface INote {
     id: string
-    name: string
     createDate: string
     text: string
+    innerHtml: string
 }
+
 export type ContextType = {
     notes: INote[]
-    note:INote
-    theme:string
-    viewMain:boolean
-    activeNoteId:string|null
-    filter:string
-    editMode:boolean
+    theme: string
+    viewMain: boolean
+    activeNoteId: string | null
+    filter: string
+    editMode: boolean
 };
 
 
-type ActionsType= {
-    setThemeList:()=>void
-    setThemeTable:()=>void
-    enableViewMain:()=>void
-    disableViewMain:()=>void
-    activeEditMode:()=>void
-    disableEditMode:(text:string)=>void
-    changeActiveNote:(id:string)=>void
-    setCurrentNote:(id:string)=>void
-    deleteNote:()=>void
-    searchNotes:(value:string)=>void
-
-
-
+type ActionsType = {
+    setThemeList: () => void
+    setThemeTable: () => void
+    enableViewMain: () => void
+    disableViewMain: () => void
+    activeEditMode: () => void
+    disableEditMode: () => void
+    changeActiveNote: (id: string) => void
+    deleteNote: () => void
+    searchNotes: (value: string) => void
+    setNoteHandler: (text: string, innerHtml: string) => void
+    setValueInnerHtml: () => string
+    setlocalStorageData: (data: INote[]) => void
+    setDateNote:()=>string
 }
-export type DataContextType=ContextType&ActionsType
-const DataContext = React.createContext<DataContextType|null>(null);
+export type DataContextType = ContextType & ActionsType
+const DataContext = React.createContext<DataContextType | null>(null);
 
-type DataProviderType={
-    children:React.ReactNode
+type DataProviderType = {
+    children: React.ReactNode
 }
-export const DataProvider:React.FC<DataProviderType> = ({children}) => {
+export const DataProvider: React.FC<DataProviderType> = ({children}) => {
     //data notes
-    const [notes,setNotes]=useState<INote[]>(notesData)
+    const [notes, setNotes] = useState<INote[]>([])
 
     //filter fo notes
-    const [filter,setFilter]=useState<string>('')
+    const [filter, setFilter] = useState<string>('')
 
-    //current note
-    const [note,setNote]=useState<INote>({name:'',text:'',createDate:'',id:''})
-
-   //theme variant note
-    const [theme,setTheme]=useState<string>("list")
+    //theme variant note
+    const [theme, setTheme] = useState<string>("list")
 
     // view table main component
-    const [viewMain,setViewMain]=useState<boolean>(false)
+    const [viewMain, setViewMain] = useState<boolean>(false)
 
     // active node id
     const [activeNoteId, setActiveNoteId] = useState<null | string>(null)
 
     //edit mode note
-    const [editMode,setEditMode]=useState(false)
+    const [editMode, setEditMode] = useState(false)
 
-    console.log(editMode)
-    const setThemeTable=()=>{
+    // console.log(editMode)
+    const setThemeTable = () => {
         setTheme("table")
     }
-    const setThemeList=()=>{
+    const setThemeList = () => {
         setTheme("list")
     }
 
-    const enableViewMain=()=>{
+    const enableViewMain = () => {
         setViewMain(true)
     }
-    const disableViewMain=()=>{
+    const disableViewMain = () => {
         setViewMain(false)
     }
 
-    const changeActiveNote=(id:string)=>{
+    const changeActiveNote = (id: string) => {
         setActiveNoteId(id)
     }
-    const setCurrentNote=(id:string)=>{
-        const note=notes.find(n=>n.id===id)
-        if(note) setNote(note)
+    const setDateNote = (): string => {
+        const note = notes.find(n => n.id === activeNoteId)
+        if (note) return note.createDate
+        else return ''
     }
 
 
-    const deleteNote=()=>{
-        setNotes(notes.filter(n=>n.id!=activeNoteId))
-        setNote({id:'',createDate:'',text:'',name:''})
+    const deleteNote = () => {
+        setNotes(notes.filter(n => n.id != activeNoteId))
+        saveInLocalStorage(notes)
     }
 
 
-    const searchNotes=(value:string)=>{
-        setNote({id:'',createDate:'',text:'',name:''})
-       setFilter(value)
+    const searchNotes = (value: string) => {
+        setFilter(value)
     }
-    const activeEditMode=()=>{
+    const activeEditMode = () => {
         setEditMode(true)
     }
-    const disableEditMode=(text:string)=>{
-        const options:any = {
+    const disableEditMode = () => {
+        setEditMode(false)
+    }
+
+
+    const setNoteHandler = (text: string, innerHtml: string) => {
+        const options: any = {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
-            hour:'numeric',
-            minute:'numeric',
-            second:'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
             timezone: 'UTC'
         };
-        const date=new Date().toLocaleString("ru", options);
-        setEditMode(false)
-        setNote({...note,text, createDate:date})
+
+        const createDate = new Date().toLocaleString("ru", options);
+
+        setNotes(notes.map(n => n.id === activeNoteId ? {...n, text, innerHtml, createDate} : n))
     }
 
+    const setValueInnerHtml = () => {
+        const note = notes.find(n => n.id === activeNoteId)
+        if (!note) {
+            return ''
+        }
+        return note.innerHtml
+    }
+
+    const setlocalStorageData = (data: INote[]) => {
+        setNotes(data)
+    }
     return (
         <DataContext.Provider value={{
-            theme,setThemeTable,setThemeList, viewMain,enableViewMain,
-            disableViewMain, activeNoteId,changeActiveNote,setCurrentNote,note,
-            deleteNote,searchNotes,notes,filter,activeEditMode,disableEditMode,editMode
+            theme, setThemeTable, setThemeList, viewMain, enableViewMain,
+            disableViewMain, activeNoteId, changeActiveNote, setDateNote,
+            deleteNote, searchNotes, notes, filter, activeEditMode, disableEditMode, editMode,
+            setNoteHandler, setValueInnerHtml,
+            setlocalStorageData,
+
         }}>
             {children}
         </DataContext.Provider>
     )
 }
 export default DataContext
+
+
+export const notesData: INote[] = [{
+    id: v1(),
+    innerHtml: "<div class=\"text-editor\"><div class=\"DraftEditor-root\"><div class=\"DraftEditor-editorContainer\"><div class=\"notranslate public-DraftEditor-content\" contenteditable=\"true\" role=\"textbox\" spellcheck=\"false\" style=\"outline: none; user-select: text; white-space: pre-wrap; overflow-wrap: break-word;\"><div data-contents=\"true\"><div class=\"\" data-block=\"true\" data-editor=\"41v35\" data-offset-key=\"6jjlp-0-0\"><div data-offset-key=\"6jjlp-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"6jjlp-0-0\" style=\"\"><span data-text=\"true\"> текст</span></span></div></div></div></div></div></div></div>",
+    createDate: '5 марта 2023 г. в 13:54',
+    text: 'текст'
+
+},
+    {
+        id: v1(),
+        innerHtml: "<div class=\"text-editor\"><div class=\"DraftEditor-root\"><div class=\"DraftEditor-editorContainer\"><div class=\"notranslate public-DraftEditor-content\" contenteditable=\"true\" role=\"textbox\" spellcheck=\"false\" style=\"outline: none; user-select: text; white-space: pre-wrap; overflow-wrap: break-word;\"><div data-contents=\"true\"><div class=\"\" data-block=\"true\" data-editor=\"41v35\" data-offset-key=\"6jjlp-0-0\"><div data-offset-key=\"6jjlp-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"6jjlp-0-0\" style=\"\"><span data-text=\"true\">тут есть </span></span></div></div></div></div></div></div></div>",
+        createDate: '5 марта 2023 г. в 13:54',
+        text: 'тут есть '
+
+    },
+    {
+        id: v1(),
+        innerHtml: "<div class=\"text-editor\"><div class=\"DraftEditor-root\"><div class=\"DraftEditor-editorContainer\"><div class=\"notranslate public-DraftEditor-content\" contenteditable=\"true\" role=\"textbox\" spellcheck=\"false\" style=\"outline: none; user-select: text; white-space: pre-wrap; overflow-wrap: break-word;\"><div data-contents=\"true\"><div class=\"\" data-block=\"true\" data-editor=\"41v35\" data-offset-key=\"6jjlp-0-0\"><div data-offset-key=\"6jjlp-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"6jjlp-0-0\" style=\"\"><span data-text=\"true\">it-incubator</span></span></div></div></div></div></div></div></div>",
+        createDate: '5 марта 2023 г. в 13:54',
+        text: 'it-incubator'
+
+    },
+    {
+        id: v1(),
+        innerHtml: "<div class=\"text-editor\"><div class=\"DraftEditor-root\"><div class=\"DraftEditor-editorContainer\"><div class=\"notranslate public-DraftEditor-content\" contenteditable=\"true\" role=\"textbox\" spellcheck=\"false\" style=\"outline: none; user-select: text; white-space: pre-wrap; overflow-wrap: break-word;\"><div data-contents=\"true\"><div class=\"\" data-block=\"true\" data-editor=\"41v35\" data-offset-key=\"6jjlp-0-0\"><div data-offset-key=\"6jjlp-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"6jjlp-0-0\" style=\"\"><span data-text=\"true\">false</span></span></div></div></div></div></div></div></div>",
+        createDate: '5 марта 2023 г. в 13:54',
+        text: 'false'
+
+    },
+]

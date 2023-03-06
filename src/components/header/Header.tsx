@@ -19,11 +19,10 @@ const Header: React.FC = () => {
         viewMain,
         disableViewMain,
         deleteNote,
-        activeNoteId
+        activeNoteId,
+        formatText,
     } = useContext(DataContext) as DataContextType
-    console.log(theme)
     const tableTheme = theme === "table" ? {borderRight: `1px solid ${variables.activeColor}`} : ""
-
 
     return (<>
             {
@@ -66,7 +65,7 @@ const Header: React.FC = () => {
                         <Grid item xs={10}>
                             <Stack direction="row" justifyContent="space-between"
                                    alignItems="center" sx={{height: '100%'}}>
-                                <IconButton>
+                                <IconButton onClick={formatText}>
                                     <TextFieldsIcon sx={{fontSize: '30px', color: variables.activeColor}}/>
                                 </IconButton>
                                 <SearchComponent/>

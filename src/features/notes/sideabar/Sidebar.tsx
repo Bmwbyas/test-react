@@ -12,11 +12,10 @@ export const Sidebar: React.FC = () => {
         enableViewMain,
         filter: f,
         activeNoteId,
-        changeActiveNote,
-        setCurrentNote
+        changeActiveNote
     } = useContext(DataContext) as DataContextType
 
-    const filtredNotes = notes.filter(p => p.name.indexOf(f) > -1)
+    const filtredNotes = notes.filter(p => p.text.indexOf(f) > -1)
 
 
     return (
@@ -37,7 +36,7 @@ export const Sidebar: React.FC = () => {
                         const activeColor = activeNoteId === el.id ? variables.selectColor : ''
                         const activeNoteHandler = () => {
                             changeActiveNote(el.id)
-                            setCurrentNote(el.id)
+
                         }
                         return <Link key={el.id} href="#" onClick={activeNoteHandler} color="inherit" underline="none">
                             <Stack
@@ -55,10 +54,9 @@ export const Sidebar: React.FC = () => {
                                     width: '100%',
                                     fontWeight: 700,
                                     color: "white"
-                                }}>{el.name}</Typography>
+                                }}>{el.text.slice(0, 40)}</Typography>
                                 <Stack direction={"row"} spacing={1}>
-                                    <Typography sx={{fontWeight: 700}}> {el.createDate.slice(0, 5)} </Typography>
-                                    <Typography>{el.text}</Typography>
+                                    <Typography sx={{fontWeight: 700}}> {el.createDate.slice(-5)} </Typography>
                                 </Stack>
 
                             </Stack>
@@ -70,7 +68,7 @@ export const Sidebar: React.FC = () => {
                     sx={{
                         backgroundColor: variables.secondBgColor,
                         color: variables.activeColor,
-                        height: '92vh',
+                        minHeight: '92vh',
                         py: 2,
                         display: viewMain ? 'none' : ''
                     }}
@@ -82,44 +80,42 @@ export const Sidebar: React.FC = () => {
                     {filtredNotes.map((el: INote) => {
                         const activeNoteHandler = () => {
                             changeActiveNote(el.id)
-                            setCurrentNote(el.id)
                             enableViewMain()
                         }
                         const borderItem = activeNoteId === el.id ? `3px solid yellow` : `3px solid ${variables.activeColor}`
-                        return <Link key={el.id} href="#" onClick={activeNoteHandler} color="inherit" underline="none">
-                            <Stack
-                                direction={"column"}
+                        return <Stack
+                            key={el.id}
+                            onClick={activeNoteHandler}
+                            direction={"column"}
+                            sx={{
+                                borderRadius: 2,
+                                p: 1,
+                            }}
+                        >
+                            <Box sx={{
+                                width: 300,
+                                height: 200,
+                                borderRadius: 2,
+                                border: borderItem,
+                                p: 2,
+                                overflow: 'hidden'
+                            }}>
+                                <Typography variant={'h6'} color={"white"}>{el.text}</Typography>
+
+                            </Box>
+                            <Typography
+                                variant={"h5"}
                                 sx={{
-                                    borderRadius: 2,
-                                    p: 1,
-                                }}
-
-                            >
-                                <Box sx={{
-                                    width: 300,
-                                    height: 200,
-                                    borderRadius: 2,
-                                    border: borderItem,
-                                    p: 2
+                                    width: '100%',
+                                    color: "white",
+                                    textAlign: 'center'
                                 }}>
-                                    <Typography variant={'h6'} color={"white"}>{el.text}</Typography>
-
-                                </Box>
-                                <Typography
-                                    variant={"h5"}
-                                    sx={{
-                                        width: '100%',
-
-                                        color: "white",
-                                        textAlign: 'center'
-                                    }}>
-                                    {el.name}
-                                </Typography>
-
-                                <Typography variant={"h6"}
-                                            sx={{textAlign: 'center'}}> {el.createDate.slice(0, 5)} </Typography>
-                            </Stack>
-                        </Link>
+                                {el.text.slice(0, 10)}
+                            </Typography>
+                            <Typography variant={"h6"}
+                                        sx={{textAlign: 'center'}}> {el.createDate.slice(-5)}
+                            </Typography>
+                        </Stack>
                     })}
                 </Stack>
             </Grid>

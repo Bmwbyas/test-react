@@ -4,6 +4,7 @@ import {Sidebar} from "./sideabar/Sidebar";
 import {Main} from "./main/Main";
 
 const Notes:React.FC = () => {
+
     return (
         <Grid container>
             <Sidebar  />

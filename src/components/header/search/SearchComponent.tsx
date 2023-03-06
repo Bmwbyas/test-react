@@ -24,7 +24,7 @@ const Search = styled(TextField)({
 });
 type SearchPropsType = {}
 export const SearchComponent: React.FC<SearchPropsType> = ({}) => {
-    const {editMode, filter, searchNotes} = useContext(DataContext) as DataContextType
+    const {viewMain, filter, searchNotes} = useContext(DataContext) as DataContextType
     const [viewSearch, setViewSearch] = useState(false)
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +33,7 @@ export const SearchComponent: React.FC<SearchPropsType> = ({}) => {
 
     return (
         <Box>
-            {editMode ?
+            {viewMain ?
                 <>                    {viewSearch ?
 
                     <Search

@@ -1,15 +1,18 @@
 import './App.css'
-import Header from "./components/header/Header";
-import Notes from "./features/notes/Notes";
 import {DataProvider} from "./store/store";
+import {Content} from "./components/content/Content";
+import React from "react";
 
 
 function App() {
+
+
     return (
-      <DataProvider >
-            <Header  />
-            <Notes  />
-      </DataProvider>
+        <DataProvider>
+
+            <Content/>
+        </DataProvider>
+
     )
 }
 
