@@ -4,8 +4,6 @@ import {saveInLocalStorage} from "../localstorage/localStorage";
 import {DataContextType, INote} from "./types";
 
 
-
-
 const DataContext = React.createContext<DataContextType | null>(null);
 
 type DataProviderType = {
@@ -114,13 +112,14 @@ export const DataProvider: React.FC<DataProviderType> = ({children}) => {
 export default DataContext
 
 
-export const notesData: INote[] = [{
-    id: v1(),
-    innerHtml: "<div class=\"text-editor\"><div class=\"DraftEditor-root\"><div class=\"DraftEditor-editorContainer\"><div class=\"notranslate public-DraftEditor-content\" contenteditable=\"true\" role=\"textbox\" spellcheck=\"false\" style=\"outline: none; user-select: text; white-space: pre-wrap; overflow-wrap: break-word;\"><div data-contents=\"true\"><div class=\"\" data-block=\"true\" data-editor=\"41v35\" data-offset-key=\"6jjlp-0-0\"><div data-offset-key=\"6jjlp-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"6jjlp-0-0\" style=\"\"><span data-text=\"true\"> текст</span></span></div></div></div></div></div></div></div>",
-    createDate: '5 марта 2023 г. в 13:54',
-    text: 'текст'
+export const notesData: INote[] = [
+    {
+        id: v1(),
+        innerHtml: "<div class=\"text-editor\"><div class=\"DraftEditor-root\"><div class=\"DraftEditor-editorContainer\"><div class=\"notranslate public-DraftEditor-content\" contenteditable=\"true\" role=\"textbox\" spellcheck=\"false\" style=\"outline: none; user-select: text; white-space: pre-wrap; overflow-wrap: break-word;\"><div data-contents=\"true\"><div class=\"\" data-block=\"true\" data-editor=\"41v35\" data-offset-key=\"6jjlp-0-0\"><div data-offset-key=\"6jjlp-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"6jjlp-0-0\" style=\"\"><span data-text=\"true\"> текст</span></span></div></div></div></div></div></div></div>",
+        createDate: '5 марта 2023 г. в 13:54',
+        text: 'текст'
 
-},
+    },
     {
         id: v1(),
         innerHtml: "<div class=\"text-editor\"><div class=\"DraftEditor-root\"><div class=\"DraftEditor-editorContainer\"><div class=\"notranslate public-DraftEditor-content\" contenteditable=\"true\" role=\"textbox\" spellcheck=\"false\" style=\"outline: none; user-select: text; white-space: pre-wrap; overflow-wrap: break-word;\"><div data-contents=\"true\"><div class=\"\" data-block=\"true\" data-editor=\"41v35\" data-offset-key=\"6jjlp-0-0\"><div data-offset-key=\"6jjlp-0-0\" class=\"public-DraftStyleDefault-block public-DraftStyleDefault-ltr\"><span data-offset-key=\"6jjlp-0-0\" style=\"\"><span data-text=\"true\">тут есть </span></span></div></div></div></div></div></div></div>",

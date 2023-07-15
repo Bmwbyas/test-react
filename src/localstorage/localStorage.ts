@@ -12,7 +12,7 @@ export const getLocalStorage=()=>{
     const notes=localStorage.getItem('notes')
 
     let parseNotes:INote[]=JSON.parse(notes!)
-    if(parseNotes.length===0){
+    if(parseNotes===null){
         parseNotes=notesData
     }
     return parseNotes
